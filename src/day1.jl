@@ -45,4 +45,33 @@ function count_combos(x::Vector{Int64}, start=50, k=0)
     return r
 end
 
+# part 1 ---------
 res = count_combos(yyy)
+
+# part 2 -----------
+function count_passes(x::Vector{Int64}, start=50, k=0)
+    r = 0
+    s_raw = start
+    n = length(x)
+    j = Vector{Int64}(undef, n)
+
+    get_k_cross_count(val, k_val) = floor(Int, (val - k_val) / 100)
+
+    for i ∈ eachindex(x)
+        s_prev_raw = s_raw
+
+        s_raw += x[i]
+
+        passes_this_spin = abs(get_k_cross_count(s_raw, k) - get_k_cross_count(s_prev_raw, k))
+        r += passes_this_spin
+
+        if passes_this_spin == 0 && mod(s_raw, 100) == k
+            r += 1
+        end
+
+        j[i] = r
+    end
+    return r, j
+end
+
+p2, log = count_passes(yyy)
