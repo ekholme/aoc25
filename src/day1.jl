@@ -49,29 +49,28 @@ end
 res = count_combos(yyy)
 
 # part 2 -----------
-function count_passes(x::Vector{Int64}, start=50, k=0)
+function count_p2(x::Vector{Int64}, start=50)
     r = 0
-    s_raw = start
-    n = length(x)
-    j = Vector{Int64}(undef, n)
-
-    get_k_cross_count(val, k_val) = floor(Int, (val - k_val) / 100)
+    s_prev = start
 
     for i ∈ eachindex(x)
-        s_prev_raw = s_raw
+        s_next = s_prev + x[i]
 
-        s_raw += x[i]
-
-        passes_this_spin = abs(get_k_cross_count(s_raw, k) - get_k_cross_count(s_prev_raw, k))
-        r += passes_this_spin
-
-        if passes_this_spin == 0 && mod(s_raw, 100) == k
+        # check for change in signs
+        if s_prev * s_next < 0
             r += 1
         end
 
-        j[i] = r
+        z = abs(div(s_next, 100))
+        r += z
+
+        s_next = mod(s_next, 100)
+        if s_next == 0
+            r += 1
+        end
+        s_prev = s_next
     end
-    return r, j
+    return r
 end
 
-p2, log = count_passes(yyy)
+p2 = count_p2(yyy)
