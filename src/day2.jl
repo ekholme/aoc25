@@ -19,8 +19,6 @@ end
 
 rngs = make_id_range.(lines)
 
-zz = collect(rngs[1].a:rngs[1].b)
-
 function split_compare(x::Int64)
     x_string = string(x)
     len = length(x_string)
@@ -39,8 +37,6 @@ function split_compare(x::Int64)
         return 0
     end
 end
-
-r1 = split_compare.(zz)
 
 function solve_p1(x::Vector{IdRange})
     len = length(x)
