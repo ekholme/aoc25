@@ -1,3 +1,5 @@
+using BenchmarkTools
+
 inp = "data/day2.txt"
 
 line = readline(inp)
@@ -86,4 +88,5 @@ function solve_p2(x::Vector{IdRange})
     return sum(r)
 end
 
-p2 = solve_p2(rngs)
+#benchmarking bc why not
+@benchmark solve_p2(rngs)
